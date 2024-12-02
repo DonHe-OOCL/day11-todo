@@ -2,6 +2,8 @@ package com.todo.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "todo")
 public class Todo {
