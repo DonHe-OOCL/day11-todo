@@ -2,10 +2,7 @@ package com.todo.controller;
 
 import com.todo.entity.Todo;
 import com.todo.service.TodoService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +20,11 @@ public class TodoController {
     @GetMapping
     public List<Todo> getTodos() {
         return todoService.getTodoList();
+    }
+
+    @GetMapping("/{id}")
+    public Todo getTodoById(@PathVariable Integer id) {
+        return todoService.getTodoById(id);
     }
 
 }

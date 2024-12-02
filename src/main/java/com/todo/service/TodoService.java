@@ -1,6 +1,7 @@
 package com.todo.service;
 
 import com.todo.entity.Todo;
+import com.todo.exception.TodoItemNotFoundException;
 import com.todo.repository.TodoRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,9 @@ public class TodoService {
 
     public List<Todo> getTodoList() {
         return todoRepository.findAll();
+    }
+
+    public Todo getTodoById(Integer id) {
+        return todoRepository.findById(id).orElseThrow(TodoItemNotFoundException::new);
     }
 }
