@@ -33,10 +33,10 @@ public class TodoControllerTest {
     private TodoRepository todoRepository;
 
     @Autowired
-    private JacksonTester<ResponseEntity<Todo>> todoJacksonTester;
+    private JacksonTester<ResponseEntity<Todo>> todoResponseEntityJacksonTester;
 
     @Autowired
-    private JacksonTester<ResponseEntity<List<Todo>>> todosJacksonTester;
+    private JacksonTester<ResponseEntity<List<Todo>>> todosResponseEntityJacksonTester;
 
     @BeforeEach
     void setUp() {
@@ -63,7 +63,7 @@ public class TodoControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        final ResponseEntity<List<Todo>> response = todosJacksonTester.parseObject(jsonResponse);
+        final ResponseEntity<List<Todo>> response = todosResponseEntityJacksonTester.parseObject(jsonResponse);
         List<Todo> todosResult = response.getResult();
         assertThat(todosResult)
                 .usingRecursiveFieldByFieldElementComparator()
@@ -71,7 +71,7 @@ public class TodoControllerTest {
     }
 
     @Test
-    void should_return_employee_when_get_by_id() throws Exception {
+    void should_return_todo_when_get_by_id() throws Exception {
         // Given
         final Todo givenTodo = todoRepository.findAll().get(0);
 
@@ -85,7 +85,7 @@ public class TodoControllerTest {
     }
 
     @Test
-    void should_create_employee_success() throws Exception {
+    void should_create_todo_success() throws Exception {
         // Given
         String givenText = "do homework";
         Boolean givenDone = false;
@@ -101,7 +101,7 @@ public class TodoControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(givenEmployee)
         ).andReturn().getResponse().getContentAsString();
-        Todo todo = todoJacksonTester.parseObject(contentAsString).getResult();
+        Todo todo = todoResponseEntityJacksonTester.parseObject(contentAsString).getResult();
 
         Todo findTodo = todoRepository.findById(todo.getId()).orElseThrow(TodoItemNotFoundException::new);
         AssertionsForClassTypes.assertThat(findTodo.getText()).isEqualTo(givenText);
@@ -109,7 +109,7 @@ public class TodoControllerTest {
     }
 
     @Test
-    void should_update_employee_success() throws Exception {
+    void should_update_todo_success() throws Exception {
         // Given
         List<Todo> givenTodos = todoRepository.findAll();
         Integer givenId = givenTodos.get(0).getId();
@@ -136,5 +136,23 @@ public class TodoControllerTest {
         AssertionsForClassTypes.assertThat(todo.getId()).isEqualTo(givenId);
         AssertionsForClassTypes.assertThat(todo.getText()).isEqualTo(givenText);
         AssertionsForClassTypes.assertThat(todo.getDone()).isEqualTo(givenDone);
+    }
+
+    @Test
+    void should_remove_todo_success() throws Exception {
+        // Given
+        List<Todo> givenTodos = todoRepository.findAll();
+        Integer givenId = givenTodos.get(0).getId();
+
+        // When
+        // Then
+        client.perform(MockMvcRequestBuilders.delete("/todos/" + givenId))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result").value(givenId));
+        List<Todo> todos = todoRepository.findAll();
+        assertThat(todos).hasSize(4);
+        AssertionsForClassTypes.assertThat(todos.get(0).getId()).isEqualTo(givenTodos.get(1).getId());
+        AssertionsForClassTypes.assertThat(todos.get(1).getId()).isEqualTo(givenTodos.get(2).getId());
+        AssertionsForClassTypes.assertThat(todos.get(2).getId()).isEqualTo(givenTodos.get(3).getId());
+        AssertionsForClassTypes.assertThat(todos.get(3).getId()).isEqualTo(givenTodos.get(4).getId());
     }
 }
