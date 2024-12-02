@@ -66,56 +66,19 @@ public class TodoControllerTest {
         //then
         assertEquals("111", createdTodo.getText());
     }
-//
-//    @Test
-//    void should_throw_EmployeeAgeNotValidException_when_create_given_a_employee_with_age_17() {
-//        //given
-//        Employee kitty = new Employee(1, "Kitty", 6, Gender.FEMALE, 8000.0);
-//        //when
-//        //then
-//        assertThrows(EmployeeAgeNotValidException.class, () -> employeeService.create(kitty));
-//        verify(mockedEmployeeRepository, never()).save(any());
-//    }
-//
-//    @Test
-//    void should_throw_EmployeeAgeNotValidException_when_create_given_a_employee_with_age_66() {
-//        //given
-//        Employee kitty = new Employee(1, "Kitty", 66, Gender.FEMALE, 8000.0);
-//        //when
-//        //then
-//        assertThrows(EmployeeAgeNotValidException.class, () -> employeeService.create(kitty));
-//        verify(mockedEmployeeRepository, never()).save(any());
-//    }
-//
-//    @Test
-//    void should_created_employee_active_when_create_employee() {
-//        //given
-//        Employee lucy = new Employee(1, "Lucy", 18, Gender.FEMALE, 8000.0);
-//        //when
-//        employeeService.create(lucy);
-//        /* then */
-//        verify(mockedEmployeeRepository).save(argThat(Employee::getActive));
-//    }
-//
-//    @Test
-//    void should_throw_EmployeeAgeSalaryNotMatchedException_when_save_given_a_employee_with_age_over_30_and_salary_below_20K() {
-//        //given
-//        Employee bob = new Employee(1, "Bob", 31, Gender.FEMALE, 8000.0);
-//        //when
-//        //then
-//        assertThrows(EmployeeAgeSalaryNotMatchedException.class, () -> employeeService.create(bob));
-//        verify(mockedEmployeeRepository, never()).save(any());
-//    }
-//
-//    @Test
-//    void should_throw_EmployeeInactiveException_when_update_inactive_employee() {
-//        //given
-//        Employee inactiveEmployee = new Employee(1, "Bob", 31, Gender.FEMALE, 8000.0);
-//        inactiveEmployee.setActive(false);
-//        when(mockedEmployeeRepository.findById(1)).thenReturn(Optional.of(inactiveEmployee));
-//        //when
-//        //then
-//        assertThrows(EmployeeInactiveException.class, () -> employeeService.update(1, inactiveEmployee));
-//        verify(mockedEmployeeRepository, never()).save(any());
-//    }
+
+    @Test
+    void should_return_update_todo_when_update_todo() {
+        //given
+        Todo todo = new Todo(1, "111", false);
+        Todo updateTodo = new Todo(1, "222", true);
+        when(mockedTodoRepository.save(todo)).thenReturn(updateTodo);
+
+        //when
+        Todo createdTodo = todoService.addTodoItem(todo);
+
+        //then
+        assertEquals("222", createdTodo.getText());
+        assertEquals(true, createdTodo.getDone());
+    }
 }
