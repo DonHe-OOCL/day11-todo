@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin()
 @RestController
 @RequestMapping("todos")
 public class TodoController {
@@ -27,4 +28,8 @@ public class TodoController {
         return todoService.getTodoById(id);
     }
 
+    @PostMapping
+    public Todo addTodo(@RequestBody Todo todo) {
+        return todoService.addTodoItem(todo);
+    }
 }

@@ -23,4 +23,8 @@ public class TodoService {
     public Todo getTodoById(Integer id) {
         return todoRepository.findById(id).orElseThrow(TodoItemNotFoundException::new);
     }
+
+    public Todo addTodoItem(Todo todo) {
+        return todoRepository.save(todo);
+    }
 }
