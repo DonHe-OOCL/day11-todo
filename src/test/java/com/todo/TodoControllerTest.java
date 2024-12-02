@@ -85,7 +85,6 @@ public class TodoControllerTest {
     @Test
     void should_delete_todo_when_given_delete_todo_id() {
         //given
-        Todo todo = new Todo(1, "111", false);
         doNothing().when(mockedTodoRepository).deleteById(1);
 
         //when

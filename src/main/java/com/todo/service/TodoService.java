@@ -39,7 +39,8 @@ public class TodoService {
         return todoRepository.save(existTodo);
     }
 
-    public void deleteTodoItem(Integer id) {
+    public Integer deleteTodoItem(Integer id) {
         todoRepository.deleteById(id);
+        return id;
     }
 }
