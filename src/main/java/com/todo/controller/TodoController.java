@@ -32,4 +32,9 @@ public class TodoController {
     public Todo addTodo(@RequestBody Todo todo) {
         return todoService.addTodoItem(todo);
     }
+
+    @PutMapping
+    public Todo updateTodoItem(@RequestBody Todo todo) {
+        return todoService.updateTodoItem(todo);
+    }
 }

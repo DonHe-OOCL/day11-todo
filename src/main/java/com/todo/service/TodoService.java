@@ -27,4 +27,12 @@ public class TodoService {
     public Todo addTodoItem(Todo todo) {
         return todoRepository.save(todo);
     }
+
+    public Todo updateTodoItem(Todo todo) {
+        if (todoRepository.existsById(todo.getId())) {
+            return todoRepository.save(todo);
+        } else {
+            throw new TodoItemNotFoundException();
+        }
+    }
 }
