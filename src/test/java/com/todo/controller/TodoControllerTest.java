@@ -2,7 +2,9 @@ package com.todo.controller;
 
 import com.todo.common.ResponseEntity;
 import com.todo.entity.Todo;
+import com.todo.exception.TodoItemNotFoundException;
 import com.todo.repository.TodoRepository;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -81,5 +84,27 @@ public class TodoControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.result.done").value(givenTodo.getDone()));
     }
 
+    @Test
+    void should_create_employee_success() throws Exception {
+        // Given
+        String givenText = "do homework";
+        Boolean givenDone = false;
+        String givenEmployee = String.format(
+                "{\"text\": \"%s\", \"done\": \"%s\"}",
+                givenText,
+                givenDone
+        );
 
+        // When
+        // Then
+        String contentAsString = client.perform(MockMvcRequestBuilders.post("/todos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(givenEmployee)
+        ).andReturn().getResponse().getContentAsString();
+        Todo todo = todoJacksonTester.parseObject(contentAsString).getResult();
+
+        Todo findTodo = todoRepository.findById(todo.getId()).orElseThrow(TodoItemNotFoundException::new);
+        AssertionsForClassTypes.assertThat(findTodo.getText()).isEqualTo(givenText);
+        AssertionsForClassTypes.assertThat(findTodo.getDone()).isEqualTo(givenDone);
+    }
 }
