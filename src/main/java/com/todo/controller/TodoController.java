@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("todos")
 public class TodoController {
@@ -38,7 +37,8 @@ public class TodoController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTodoById(@PathVariable Integer id) {
+    public Integer deleteTodoById(@PathVariable Integer id) {
         todoService.deleteTodoItem(id);
+        return id;
     }
 }
