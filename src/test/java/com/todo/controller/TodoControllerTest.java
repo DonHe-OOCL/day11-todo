@@ -67,7 +67,19 @@ public class TodoControllerTest {
                 .isEqualTo(givenTodos);
     }
 
+    @Test
+    void should_return_employee_when_get_by_id() throws Exception {
+        // Given
+        final Todo givenTodo = todoRepository.findAll().get(0);
 
+        // When
+        // Then
+        client.perform(MockMvcRequestBuilders.get("/todos/" + givenTodo.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.id").value(givenTodo.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.text").value(givenTodo.getText()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.done").value(givenTodo.getDone()));
+    }
 
 
 }
