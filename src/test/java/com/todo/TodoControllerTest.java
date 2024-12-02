@@ -42,7 +42,7 @@ public class TodoControllerTest {
     }
 
     @Test
-    void should_return_the_given_todos_when_getById() {
+    void should_return_the_given_todo_when_getById() {
         //given
         when(mockedTodoRepository.findById(1)).thenReturn(Optional.of(new Todo(1, "111", false)));
 
@@ -54,31 +54,18 @@ public class TodoControllerTest {
         assertEquals(false, todo.getDone());
     }
 
-//    @Test
-//    void should_return_the_given_employees_when_findById() {
-//        //given
-//        Employee lucy = new Employee(1, "Lucy", 18, Gender.FEMALE, 8000.0);
-//        when(mockedEmployeeRepository.findById(1)).thenReturn(Optional.of(lucy));
-//
-//        //when
-//        Employee employee = employeeService.findById(1);
-//
-//        //then
-//        assertEquals("Lucy", employee.getName());
-//    }
-//
-//    @Test
-//    void should_return_the_created_employee_when_create_given_a_employee() {
-//        //given
-//        Employee lucy = new Employee(1, "Lucy", 18, Gender.FEMALE, 8000.0);
-//        when(employeeService.create(lucy)).thenReturn(lucy);
-//
-//        //when
-//        Employee createdEmployee = employeeService.create(lucy);
-//
-//        //then
-//        assertEquals("Lucy", createdEmployee.getName());
-//    }
+    @Test
+    void should_return_the_created_todo_when_create_given_a_todo() {
+        //given
+        Todo todo = new Todo(1, "111", false);
+        when(mockedTodoRepository.save(todo)).thenReturn(todo);
+
+        //when
+        Todo createdTodo = todoService.addTodoItem(todo);
+
+        //then
+        assertEquals("111", createdTodo.getText());
+    }
 //
 //    @Test
 //    void should_throw_EmployeeAgeNotValidException_when_create_given_a_employee_with_age_17() {
