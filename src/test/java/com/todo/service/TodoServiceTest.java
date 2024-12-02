@@ -1,4 +1,4 @@
-package com.todo;
+package com.todo.service;
 
 import com.todo.entity.Todo;
 import com.todo.repository.TodoRepository;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.never;
 
 @ExtendWith(MockitoExtension.class)
-public class TodoControllerTest {
+public class TodoServiceTest {
     @InjectMocks
     TodoService todoService;
 
