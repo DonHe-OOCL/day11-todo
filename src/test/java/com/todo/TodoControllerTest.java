@@ -41,18 +41,18 @@ public class TodoControllerTest {
         assertEquals(false, allEmployees.get(0).getDone());
     }
 
-//    @Test
-//    void should_return_the_given_todos_when_getById() {
-//        //given
-//        when(mockedTodoRepository.findById(1)).thenReturn(Optional.of(new Todo(1, "111", false)));
-//
-//        //when
-//        Todo todo = todoService.getTodoById(1);
-//
-//        //then
-//        assertEquals("111", todo.getText());
-//        assertEquals(false, todo.getDone());
-//    }
+    @Test
+    void should_return_the_given_todos_when_getById() {
+        //given
+        when(mockedTodoRepository.findById(1)).thenReturn(Optional.of(new Todo(1, "111", false)));
+
+        //when
+        Todo todo = todoService.getTodoById(1);
+
+        //then
+        assertEquals("111", todo.getText());
+        assertEquals(false, todo.getDone());
+    }
 
 //    @Test
 //    void should_return_the_given_employees_when_findById() {
