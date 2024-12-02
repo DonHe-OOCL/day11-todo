@@ -107,4 +107,34 @@ public class TodoControllerTest {
         AssertionsForClassTypes.assertThat(findTodo.getText()).isEqualTo(givenText);
         AssertionsForClassTypes.assertThat(findTodo.getDone()).isEqualTo(givenDone);
     }
+
+    @Test
+    void should_update_employee_success() throws Exception {
+        // Given
+        List<Todo> givenTodos = todoRepository.findAll();
+        Integer givenId = givenTodos.get(0).getId();
+        String givenText = "study";
+        Boolean givenDone = true;
+        String givenTodo = String.format(
+                "{\"id\": %s, \"text\": \"%s\", \"done\": \"%s\"}",
+                givenId,
+                givenText,
+                givenDone
+        );
+
+        // When
+        // Then
+        client.perform(MockMvcRequestBuilders.put("/todos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(givenTodo)
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.text").value(givenText))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.done").value(givenDone));
+        Todo todo = todoRepository.findById(givenId).orElseThrow(TodoItemNotFoundException::new);
+        AssertionsForClassTypes.assertThat(todo.getId()).isEqualTo(givenId);
+        AssertionsForClassTypes.assertThat(todo.getText()).isEqualTo(givenText);
+        AssertionsForClassTypes.assertThat(todo.getDone()).isEqualTo(givenDone);
+    }
 }
