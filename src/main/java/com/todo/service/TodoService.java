@@ -29,11 +29,14 @@ public class TodoService {
     }
 
     public Todo updateTodoItem(Todo todo) {
-        if (todoRepository.existsById(todo.getId())) {
-            return todoRepository.save(todo);
-        } else {
-            throw new TodoItemNotFoundException();
+        Todo existTodo = getTodoById(todo.getId());
+        if (todo.getDone() != null) {
+            existTodo.setDone(todo.getDone());
         }
+        if (todo.getText() != null) {
+            existTodo.setText(todo.getText());
+        }
+        return todoRepository.save(existTodo);
     }
 
     public void deleteTodoItem(Integer id) {
