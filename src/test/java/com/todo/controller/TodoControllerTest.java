@@ -155,4 +155,19 @@ public class TodoControllerTest {
         AssertionsForClassTypes.assertThat(todos.get(2).getId()).isEqualTo(givenTodos.get(3).getId());
         AssertionsForClassTypes.assertThat(todos.get(3).getId()).isEqualTo(givenTodos.get(4).getId());
     }
+
+    @Test
+    void should_throw_todo_item_not_found_exception_when_get_by_id_given_todo_not_exist() throws Exception {
+        // Given
+        List<Todo> givenTodos = todoRepository.findAll();
+        Integer givenId = givenTodos.get(givenTodos.size() - 1).getId() + 1;
+
+        // When
+        // Then
+        client.perform(MockMvcRequestBuilders.get("/todos/" + givenId))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Todo item not found"));
+    }
+
+
 }
