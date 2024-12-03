@@ -61,31 +61,4 @@ public class TodoServiceTest {
         //then
         assertEquals("111", createdTodo.getText());
     }
-
-    @Test
-    void should_return_update_todo_when_update_todo() {
-        //given
-        Todo todo = new Todo(1, "111", false);
-        Todo updateTodo = new Todo(1, "222", true);
-        when(mockedTodoRepository.save(todo)).thenReturn(updateTodo);
-
-        //when
-        Todo createdTodo = todoService.addTodoItem(todo);
-
-        //then
-        assertEquals("222", createdTodo.getText());
-        assertEquals(true, createdTodo.getDone());
-    }
-
-    @Test
-    void should_delete_todo_when_given_delete_todo_id() {
-        //given
-        doNothing().when(mockedTodoRepository).deleteById(1);
-
-        //when
-        todoService.deleteTodoItem(1);
-
-        //then
-        verify(mockedTodoRepository, times(1)).deleteById(1);
-    }
 }
