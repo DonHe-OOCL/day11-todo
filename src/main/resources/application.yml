@@ -8,4 +8,6 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
+  flyway:
+    baseline-on-migrate: true
